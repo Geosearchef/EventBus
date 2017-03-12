@@ -19,7 +19,7 @@ public class EventBus {
 	/**
 	 * Register a class to listen on events
 	 */
-	public static void register(Class<?> clazz) {	
+	public static void registerListener(Class<?> clazz) {	
 		Stream.of(clazz.getMethods())
 		.filter(method -> method.isAnnotationPresent(EventHandler.class) 
 				&& method.getParameterCount() > 0)
@@ -36,9 +36,9 @@ public class EventBus {
 	/**
 	 * Register an object to listen on events
 	 */
-	public static void register(Object object) {
+	public static void registerObject(Object object) {
 		if(! registeredClasses.contains(object.getClass()))
-			register(object.getClass());
+			registerListener(object.getClass());
 		
 		eventHandlersByEvents.values().stream()
 		.flatMap(eventHandlers -> eventHandlers.stream())
@@ -65,7 +65,7 @@ public class EventBus {
 	}
 	
 	/**
-	 * Will post an object on the event bus and inform all event handlers that receive this kind of 
+	 * Will post an object on the event bus and inform all event handlers that receive this kind of object
 	 * @param object
 	 */
 	public static void post(Object event) {

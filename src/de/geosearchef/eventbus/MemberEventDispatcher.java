@@ -3,6 +3,7 @@ package de.geosearchef.eventbus;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 class MemberEventDispatcher extends EventDispatcher {
 
@@ -24,9 +25,11 @@ class MemberEventDispatcher extends EventDispatcher {
 	@Override
 	public void invoke(Object event) {
 		listeningObjects.forEach(object -> {
-			try {
-				method.invoke(object, event);
-			} catch(Exception e) {e.printStackTrace();}
+			CompletableFuture.runAsync(() -> {
+				try {
+					method.invoke(object, event);
+				} catch(Exception e) {e.printStackTrace();}
+			});
 		});
 	}
 }

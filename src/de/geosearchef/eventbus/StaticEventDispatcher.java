@@ -2,6 +2,7 @@ package de.geosearchef.eventbus;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.concurrent.CompletableFuture;
 
 class StaticEventDispatcher extends EventDispatcher {
 	
@@ -11,8 +12,10 @@ class StaticEventDispatcher extends EventDispatcher {
 	
 	@Override
 	public void invoke(Object event) {
-		try {
-			method.invoke(null, event);
-		} catch(Exception e) {e.printStackTrace();}
+		CompletableFuture.runAsync(() -> {
+			try {
+				method.invoke(null, event);
+			} catch(Exception e) {e.printStackTrace();}
+		});
 	}
 }
