@@ -68,9 +68,9 @@ public class EventBus {
 	 * Will post an object on the event bus and inform all event handlers that receive this kind of object
 	 * @param object
 	 */
-	public static void post(Object event) {
+	public static void post(Object event, Object... parameters) {
 		if(eventHandlersByEvents.containsKey(event.getClass()))
-			eventHandlersByEvents.get(event.getClass()).forEach(eventHandler -> eventHandler.invoke(event));
+			eventHandlersByEvents.get(event.getClass()).forEach(eventHandler -> eventHandler.invoke(event, parameters));
 		else
 			throw new UnregisteredEventException(event);
 	}

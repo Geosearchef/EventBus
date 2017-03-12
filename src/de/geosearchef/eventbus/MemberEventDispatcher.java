@@ -1,6 +1,7 @@
 package de.geosearchef.eventbus;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -23,11 +24,15 @@ class MemberEventDispatcher extends EventDispatcher {
 	}
 
 	@Override
-	public void invoke(Object event) {
+	public void invoke(Object event, Object[] parameters) {
+		List<Object> parameterList = new LinkedList<>(Arrays.asList(parameters));
+		parameterList.add(0, event);
+		Object[] parameterArray = parameterList.toArray();
+		
 		listeningObjects.forEach(object -> {
 			CompletableFuture.runAsync(() -> {
 				try {
-					method.invoke(object, event);
+					method.invoke(object, parameterArray);
 				} catch(Exception e) {e.printStackTrace();}
 			});
 		});

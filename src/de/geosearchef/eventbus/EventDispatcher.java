@@ -17,5 +17,5 @@ abstract class EventDispatcher {
 		return method.getDeclaringClass();
 	}
 	
-	abstract void invoke(Object event);
+	abstract void invoke(Object event, Object[] parameters);
 }
