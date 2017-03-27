@@ -72,7 +72,5 @@ public class EventBus {
 	public static void post(Object event, Object... parameters) {
 		if(eventHandlersByEvents.containsKey(event.getClass()))
 			eventHandlersByEvents.get(event.getClass()).forEach(eventHandler -> eventHandler.invoke(event, parameters));
-		else
-			throw new UnregisteredEventException(event);
 	}
 }
