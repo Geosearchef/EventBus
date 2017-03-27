@@ -66,6 +66,7 @@ public class EventBus {
 	
 	/**
 	 * Will post an object on the event bus and inform all event handlers that receive this kind of object
+	 * (this exact object class, NOT A SUBCLASS!)
 	 * @param object
 	 */
 	public static void post(Object event, Object... parameters) {
